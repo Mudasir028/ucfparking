@@ -1,20 +1,20 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
-import { useSelector } from "react-redux";
-import { StatsCard } from "../stats/StatsCard";
+import { useSelector } from 'react-redux'
+import { StatsCard } from '../stats/StatsCard'
 
 const Stats = () => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const state = useSelector((state: any) => state);
+  const state = useSelector((state: any) => state)
 
-  const { parking, chart } = state;
-  const { barChartData } = chart;
+  const { parking, chart } = state
+  const { barChartData } = chart
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { total_data_rows } = parking;
-  let spaces: number = 0;
+  const { total_data_rows } = parking
+  let spaces: number = 0
 
   for (const space in barChartData) {
-    spaces += barChartData[space].spaces;
+    spaces += barChartData[space].spaces
   }
 
   return (
@@ -64,7 +64,7 @@ const Stats = () => {
         }
         text="Rows of Parking Data"
       >
-        {total_data_rows}
+        {total_data_rows || 0}
       </StatsCard>
       <StatsCard
         icon={
@@ -109,6 +109,6 @@ const Stats = () => {
         48:30:20
       </StatsCard>
     </div>
-  );
-};
-export { Stats };
+  )
+}
+export { Stats }
