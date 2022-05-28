@@ -53,12 +53,12 @@ export const getStaticProps = async () => {
     // const res = await fetch("https://api.ucfparking.com");
     // const graphData = await res.json();
     const res1 = await fetch("https://api.ucfparking.com/stats");
-    const lastRowData = await res1;
+    const lastRowData = await res1.json();
 
     return {
       props: {
         // graphData,
-        lastRowData: JSON.parse(JSON.stringify(lastRowData))
+        lastRowData
       }
     };
   } catch (error) {
