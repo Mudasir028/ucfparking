@@ -11,6 +11,7 @@ const Charts = () => {
 
   const {
     // getTodayData
+    HandleLastRowData,
     getLastDayData,
     getBarChartData,
     getPieChartData
@@ -21,6 +22,7 @@ const Charts = () => {
     const mins = new Date().getMinutes()
     // console.log("minnnn", mins);
     if (mins === 0o0) {
+      HandleLastRowData()
       getLastDayData()
       getBarChartData()
       getPieChartData()
@@ -30,6 +32,7 @@ const Charts = () => {
 
   useEffect(() => {
     // dispatch(getTodayData())
+    HandleLastRowData()
     getLastDayData()
     getBarChartData()
     getPieChartData()
