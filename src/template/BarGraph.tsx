@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux'
 import {
   BarChart,
   XAxis,
@@ -7,58 +7,22 @@ import {
   Tooltip,
   Bar,
   Cell
-} from "recharts";
-import { ChartCard } from "../chart/ChartCard";
-// import { Welcome } from '../types';
+} from 'recharts'
+import { ChartCard } from '../chart/ChartCard'
 
 const colors = [
-  "#3694da",
-  "#0d9252",
-  "#556d8c",
-  "#674ea7",
-  "#dc1010",
-  "#b7950c",
-  "#433737"
-];
-
-// const data = [
-//   {
-//     name: 'Garage A',
-//     spaces: 4000,
-//   },
-//   {
-//     name: 'Garage B',
-//     spaces: 3000,
-//   },
-//   {
-//     name: 'Garage C',
-//     spaces: 2000,
-//   },
-//   {
-//     name: 'Garage D',
-//     spaces: 2780,
-//   },
-//   {
-//     name: 'Garage H',
-//     spaces: 1890,
-//   },
-//   {
-//     name: 'Garage I',
-//     spaces: 2390,
-//   },
-//   {
-//     name: 'Libra Garage',
-//     spaces: 3490,
-//   },
-// ];
-
-// interface Props {
-//   graphData: Welcome
-// }
+  '#3694da',
+  '#0d9252',
+  '#556d8c',
+  '#674ea7',
+  '#dc1010',
+  '#b7950c',
+  '#433737'
+]
 
 const BarGraph = () => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const state = useSelector((state: any) => state.chart);
+  const state = useSelector((state: any) => state.chart)
   // console.log("state", state)
 
   return (
@@ -77,7 +41,7 @@ const BarGraph = () => {
         <XAxis dataKey="name" tickLine={false} axisLine={false} />
         <YAxis tickLine={false} axisLine={false} />
         <CartesianGrid stroke="#E5E7EB" strokeDasharray="15" vertical={false} />
-        <Tooltip cursor={{ fill: "rgb(156, 163, 175, 0.2)" }} />
+        <Tooltip cursor={{ fill: 'rgb(156, 163, 175, 0.2)' }} />
         {/* <Bar dataKey="spaces" name="Page View" fill="#667EEA" fillOpacity={0.6}> */}
         <Bar dataKey="spaces" name="Available Spaces" fill="#667EEA">
           {state.barChartData.map((_entry: any, index: number) => (
@@ -86,7 +50,7 @@ const BarGraph = () => {
         </Bar>
       </BarChart>
     </ChartCard>
-  );
-};
+  )
+}
 
-export { BarGraph };
+export { BarGraph }

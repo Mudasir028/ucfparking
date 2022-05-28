@@ -1,21 +1,71 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
-import { useSelector } from "react-redux";
-import { StatsCard } from "../stats/StatsCard";
+import { useSelector } from 'react-redux'
+import { StatsCard } from '../stats/StatsCard'
+import momentTZ from 'moment-timezone'
+import moment from 'moment'
+import { useState } from 'react'
 
 const Stats = () => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const state = useSelector((state: any) => state);
+  const state = useSelector((state: any) => state)
+  const [updatedtime, setUpdatedTime] = useState('00:02:01')
 
-  const { parking, chart } = state;
-  const { barChartData } = chart;
+  const { parking, chart } = state
+  const { barChartData } = chart
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { total_data_rows } = parking;
-  let spaces: number = 0;
+  const { total_data_rows, last_date_and_time } = parking
+  let spaces: number = 0
 
   for (const space in barChartData) {
-    spaces += barChartData[space].spaces;
+    spaces += barChartData[space].spaces
   }
+
+  let date = new Date()
+  let prevHour = moment(date).subtract(1, 'hour')
+
+  let prevUpdate = `${momentTZ(prevHour).tz('Est').format('ha')}`
+  console.log(prevUpdate)
+
+  const convertServerToTimeZone = (utcTime: any) => {
+    const estTime = moment
+      .utc(utcTime)
+      .tz('America/New_York')
+      .format('YYYY-MM-DD HH:mm:ss')
+
+    let hour = new Date(estTime).getHours()
+    // console.log(estTime)
+    let nextPrediction = ''
+
+    if (hour > 0 && hour <= 6) {
+      nextPrediction = '06:01:00'
+    } else if (hour > 6 && hour <= 12) {
+      nextPrediction = '12:01:00'
+    } else if (hour > 12 && hour <= 18) {
+      nextPrediction = '18:01:00'
+    } else if (hour > 18) {
+      nextPrediction = '00:01:00'
+    }
+    return nextPrediction
+  }
+
+  function nextDataUpdate(utcTime: string) {
+    const estTime = moment
+      .utc(utcTime)
+      .tz('America/New_York')
+      .format('YYYY-MM-DD HH:mm:ss')
+
+    let HH = new Date(estTime).getHours()
+    const nowDateAndTime = new Date()
+    let MM = nowDateAndTime.getMinutes()
+    let SS = nowDateAndTime.getSeconds()
+
+    var target = `${HH}:${MM}:${SS} `
+
+    setUpdatedTime(target)
+    return target
+  }
+  setInterval(nextDataUpdate, 10, last_date_and_time)
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -85,7 +135,7 @@ const Stats = () => {
         }
         text="Next Data Update"
       >
-        10:03:27
+        {updatedtime}
       </StatsCard>
       <StatsCard
         icon={
@@ -106,9 +156,9 @@ const Stats = () => {
         }
         text="Next Prediction Update"
       >
-        48:30:20
+        {convertServerToTimeZone(last_date_and_time)}
       </StatsCard>
     </div>
-  );
-};
-export { Stats };
+  )
+}
+export { Stats }
