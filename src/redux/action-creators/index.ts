@@ -3,7 +3,10 @@ import { Action } from "../actions/index";
 import { ActionType } from "../constants/index";
 import { filterByWeek, handelChartData, handleBarChart } from "./chartActions";
 
-export const HandleLastRowData = (lastRowData: any) => (dispatch: Dispatch) => {
+// export const HandleLastRowData = (lastRowData: any) => (dispatch: Dispatch) => {
+export const HandleLastRowData = () => async(dispatch: Dispatch) => {
+  const res = await fetch("https://api.ucfparking.com/stats");
+  const lastRowData = await res.json();
   dispatch({
     type: ActionType.LAST_ROW,
     payload: lastRowData
