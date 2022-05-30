@@ -182,7 +182,7 @@ const Stats = () => {
         }
         text="Rows of Parking Data"
       >
-        {total_data_rows}
+        {total_data_rows || 0}
       </StatsCard>
       <StatsCard
         icon={
