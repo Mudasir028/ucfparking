@@ -57,6 +57,8 @@ const Stats = () => {
   }
 
   //agr last data update ak hour phlay ka ho ga then ya work kray ga. or user ka current time b thek hona chahia.
+  console.log("last_date_and_time")
+    console.log(last_date_and_time);
 
   function nextDataUpdate(utcTime: string) {
   
@@ -64,15 +66,14 @@ const Stats = () => {
     // const lastUpdatedTime = '2022-05-29 10:01:00';
     // console.log('utcTime', utcTime);
     
-    // console.log(new Date())
-    // console.log((new Date).toUTCString());
-
+    
     const lastUpdatedTimeString = utcTime + 'Z';
-    var date = new Date(); 
-   var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-    date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-    console.log("now_utc")
-    console.log(now_utc)
+    
+    // var date = new Date(); 
+    // var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+    // date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    
+  
     
     // const currentTimeString = (new Date).toUTCString();
     // const currentTimeString = (new Date).toISOString();
@@ -94,8 +95,6 @@ const Stats = () => {
     const lastUpdatedMilliSeconds = (new Date(lastUpdatedTimeString)).getTime() + (60*1000);
     const nextDeploymentMilliSeconds = lastUpdatedMilliSeconds + (60*60*1000);
     const currentTimeMilliSeconds = (new Date()).getTime();
-    console.log('currentTimeMilliSeconds')
-    console.log(currentTimeMilliSeconds)
     const milliSeconds = nextDeploymentMilliSeconds - currentTimeMilliSeconds;
 
     const seconds = Math.floor(milliSeconds / 1000);
@@ -126,8 +125,13 @@ const Stats = () => {
     setUpdatedTime(target)
     return target
   }
-  setInterval(nextDataUpdate, 1000, last_date_and_time)
-  // setInterval(nextDataUpdate, 1000, '2022-05-30 04:00:00');
+  
+  if(last_date_and_time !== undefined){
+    setInterval(nextDataUpdate, 1000, last_date_and_time)
+    // setInterval(nextDataUpdate, 1000, '2022-05-30 04:00:00');
+  }
+
+  
 
  
 
