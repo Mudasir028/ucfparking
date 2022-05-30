@@ -4,12 +4,18 @@ import { useSelector } from 'react-redux'
 import { StatsCard } from '../stats/StatsCard'
 import momentTZ from 'moment-timezone'
 import moment from 'moment'
-import { useState } from 'react'
+import {  useState } from 'react'
 
 const Stats = () => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const state = useSelector((state: any) => state)
   const [updatedtime, setUpdatedTime] = useState('00:02:01')
+
+  // useEffect(async() => {
+  //   const res = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
+
+  // }, [])
+  
 
   const { parking, chart } = state
   const { barChartData } = chart
@@ -34,6 +40,7 @@ const Stats = () => {
       .format('YYYY-MM-DD HH:mm:ss')
 
     let hour = new Date(estTime).getHours()
+    // console.log("estTime")
     // console.log(estTime)
     let nextPrediction = ''
 
@@ -49,23 +56,80 @@ const Stats = () => {
     return nextPrediction
   }
 
+  //agr last data update ak hour phlay ka ho ga then ya work kray ga. or user ka current time b thek hona chahia.
+
   function nextDataUpdate(utcTime: string) {
-    const estTime = moment
-      .utc(utcTime)
-      .tz('America/New_York')
-      .format('YYYY-MM-DD HH:mm:ss')
+  
 
-    let HH = new Date(estTime).getHours()
-    const nowDateAndTime = new Date()
-    let MM = nowDateAndTime.getMinutes()
-    let SS = nowDateAndTime.getSeconds()
+    // const lastUpdatedTime = '2022-05-29 10:01:00';
+    // console.log('utcTime', utcTime);
+    
+    // console.log(new Date())
+    // console.log((new Date).toUTCString());
 
-    var target = `${HH}:${MM}:${SS} `
+    const lastUpdatedTimeString = utcTime + 'Z';
+    var date = new Date(); 
+   var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+    date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    console.log("now_utc")
+    console.log(now_utc)
+    
+    // const currentTimeString = (new Date).toUTCString();
+    // const currentTimeString = (new Date).toISOString();
+    // const currentTimeString = (new Date()); // current zone time
+    // http://worldtimeapi.org/api/timezone/Etc/UTC
+
+
+    // const currentTimeString = '2022-05-29 10:59:00'; // Bug
+    // const currentTimeString = '2022-05-29 10:59:10';
+    // const currentTimeString = '2022-05-29 10:59:59';
+    // const currentTimeString = '2022-05-29 11:00:00'; // Bug
+    // const currentTimeString = '2022-05-29 11:00:50';
+    // const currentTimeString = '2022-05-29 11:01:00'; // Bug
+
+    // START
+    // const nextDeployment = new Date((new Date(lastUpdatedTimeString)).valueOf() + (60*60*1000));
+    // const currentTimeObj = new Date(currentTimeString);
+    // const milliSeconds = nextDeployment.valueOf() - currentTimeObj.valueOf();
+    const lastUpdatedMilliSeconds = (new Date(lastUpdatedTimeString)).getTime() + (60*1000);
+    const nextDeploymentMilliSeconds = lastUpdatedMilliSeconds + (60*60*1000);
+    const currentTimeMilliSeconds = (new Date()).getTime();
+    console.log('currentTimeMilliSeconds')
+    console.log(currentTimeMilliSeconds)
+    const milliSeconds = nextDeploymentMilliSeconds - currentTimeMilliSeconds;
+
+    const seconds = Math.floor(milliSeconds / 1000);
+    
+    let MM:any = Math.floor(seconds / 60);
+    let SS:any = seconds - MM * 60;
+    // END
+
+    // let nowDateAndTime = new Date(currentTimeString)
+    // nowDateAndTime = new Date(nowDateAndTime.valueOf() - (60*1000));
+    // // let MM = nowDateAndTime.getMinutes()
+    // // let SS = nowDateAndTime.getSeconds()
+    // let MM:any = 60 - nowDateAndTime.getMinutes()
+    // let SS:any = 60 - nowDateAndTime.getSeconds()
+
+    // if (SS !== 0) MM--;
+
+    MM = MM < 10 ? `0${MM}` : MM;
+    SS = SS < 10 ? `0${SS}` : SS;
+
+    // var target = `${HH}:${MM}:${SS} `
+    var target = `00:${MM}:${SS}`;
+
+    // console.log(currentTimeString, target);
+    // console.log(currentTimeString);
+    // console.log(currentTimeObj);
 
     setUpdatedTime(target)
     return target
   }
-  setInterval(nextDataUpdate, 10, last_date_and_time)
+  setInterval(nextDataUpdate, 1000, last_date_and_time)
+  // setInterval(nextDataUpdate, 1000, '2022-05-30 04:00:00');
+
+ 
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">

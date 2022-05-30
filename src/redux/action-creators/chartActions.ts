@@ -103,5 +103,6 @@ export const filterByWeek = (data: any) => {
     chartData.push(obj)
   }
   const space_left = sumArray(chartData)
+  space_left.reverse()
   return space_left
 }
