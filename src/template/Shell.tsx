@@ -16,7 +16,7 @@ const Shell = (props: IShellProps) => {
       rightContent={
         <>
           <div className="flex">
-            <div className="flex-1 mr-4">
+            <div className="flex-1 mr-3">
               <Dropdown />
             </div>
 
