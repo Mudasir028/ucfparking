@@ -39,12 +39,12 @@ const chartReducer = (state: any = initialState, action: Action): any => {
         lineChart: action.payload,
         lineChartData: action.data
       };
-    case ActionType.GET_LAST_YEAR_DATA:
-      return {
-        ...state,
-        lineChart: action.payload,
-        lineChartData: action.data
-      };
+    // case ActionType.GET_LAST_YEAR_DATA:
+    //   return {
+    //     ...state,
+    //     lineChart: action.payload,
+    //     lineChartData: action.data
+    //   };
     // case ActionType.GET_ALL_DATA:
     //     return {
     //         ...state,

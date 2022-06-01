@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/naming-convention */
 import moment from 'moment'
-
+import 'moment-timezone'
 export const handelChartData = (data: any, type: string) => {
   let chartData: any[] = []
   let timebaseLineData: any = {}
@@ -27,8 +27,6 @@ export const handelChartData = (data: any, type: string) => {
     chartData.push(timebaseLineData)
   })
   chartData.reverse()
-  // console.log('chartData')
-  // console.log(chartData)
 
   return chartData
 }

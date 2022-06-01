@@ -5,8 +5,7 @@ import { ChartCard } from '../chart/ChartCard'
 
 const PieGraph = () => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const state = useSelector((state: any) => state.chart)
-  // console.log("state", state)
+  const state = useSelector((state: any) => state.chart);
   return (
     <ChartCard title="Spaces Filled by Garage">
       <PieChart>

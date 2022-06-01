@@ -5,9 +5,7 @@ import { ChartCard } from '../chart/ChartCard'
 
 const LineGraph = () => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const state = useSelector((state: any) => state.chart)
-  // console.log('state', state.lineChartData)
-
+  const state = useSelector((state: any) => state.chart);
   return (
     <ChartCard title="Parking Data">
       <AreaChart

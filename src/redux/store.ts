@@ -16,8 +16,5 @@ export const store = createStore(
   initalState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
-
-// assigning store to next wrapper
-// const makeStore = () => store;
 export default store;
-// export const wrapper = createWrapper(makeStore);
+

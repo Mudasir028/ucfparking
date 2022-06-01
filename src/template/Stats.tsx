@@ -1,139 +1,130 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actionCreators } from '../redux'
 import { StatsCard } from '../stats/StatsCard'
-import momentTZ from 'moment-timezone'
-import moment from 'moment'
-import {  useState } from 'react'
+import {  useEffect, useState } from 'react'
 
 const Stats = () => {
+const dispatch = useDispatch()
+  const {
+    // getTodayData
+    HandleLastRowData,
+    getLastDayData,
+    getBarChartData,
+    getPieChartData
+  } = bindActionCreators(actionCreators, dispatch);
+  
+  useEffect(() => {
+    // dispatch(getTodayData())
+    HandleLastRowData()
+    getLastDayData()
+    getBarChartData()
+    getPieChartData()
+  }, [])
+
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const state = useSelector((state: any) => state)
-  const [updatedtime, setUpdatedTime] = useState('00:02:01')
-
-  // useEffect(async() => {
-  //   const res = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
-
-  // }, [])
-  
+  const [updatedtime, setUpdatedTime] = useState('00:00:01');  
 
   const { parking, chart } = state
   const { barChartData } = chart
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { total_data_rows, last_date_and_time } = parking
+  const { total_data_rows } = parking
+  
+  //Available Spaces
   let spaces: number = 0
-
   for (const space in barChartData) {
     spaces += barChartData[space].spaces
   }
+ 
+  // Next Prediction Update
+  const nextpredictionUpdate = (utcTime: string | number | Date) => {
+  const utcObj = new Date(utcTime);
+  // console.log(utcObj);
+  const hours = utcObj.getUTCHours();
+  const minutes = utcObj.getUTCMinutes();
 
-  let date = new Date()
-  let prevHour = moment(date).subtract(1, 'hour')
-
-  let prevUpdate = `${momentTZ(prevHour).tz('Est').format('ha')}`
-  console.log(prevUpdate)
-
-  const convertServerToTimeZone = (utcTime: any) => {
-    const estTime = moment
-      .utc(utcTime)
-      .tz('America/New_York')
-      .format('YYYY-MM-DD HH:mm:ss')
-
-    let hour = new Date(estTime).getHours()
-    // console.log("estTime")
-    // console.log(estTime)
-    let nextPrediction = ''
-
-    if (hour > 0 && hour <= 6) {
-      nextPrediction = '06:01:00'
-    } else if (hour > 6 && hour <= 12) {
-      nextPrediction = '12:01:00'
-    } else if (hour > 12 && hour <= 18) {
-      nextPrediction = '18:01:00'
-    } else if (hour > 18) {
-      nextPrediction = '00:01:00'
+  let nextYear = utcObj.getUTCFullYear();
+  let nextMonth = utcObj.getUTCMonth();
+  let nextDate = utcObj.getUTCDate();
+  let nextHour = utcObj.getUTCHours();
+  const nextMinute = 1;
+  const nextSecond = 0;
+  
+    if ( (hours === 0 && minutes < 1) || hours > 18 || (hours === 18 && minutes >= 1) ) {
+      nextHour = 0;
+  
+      /**
+       * Add 6 hours in current utc time.
+       * And get utc date components and set hour, minutes and seconds manually.
+       *
+       */
+      const utcTimePlus6HoursInMilliSeconds = utcObj.getTime() + (6*60*60*1000);
+      const newUtcObj = new Date(utcTimePlus6HoursInMilliSeconds);
+  
+      nextYear = newUtcObj.getUTCFullYear();
+      nextMonth = newUtcObj.getUTCMonth();
+      nextDate = newUtcObj.getUTCDate();
+    } else if ( hours > 12 || (hours === 12 && minutes >= 1) ) {
+      nextHour = 18;
+    } else if ( hours > 6 || (hours === 6 && minutes >= 1) ) {
+      nextHour = 12;
+    } else {
+      nextHour = 6;
     }
-    return nextPrediction
-  }
-
-  //agr last data update ak hour phlay ka ho ga then ya work kray ga. or user ka current time b thek hona chahia.
-  console.log("last_date_and_time")
-    console.log(last_date_and_time);
-
-  function nextDataUpdate(utcTime: string) {
   
-
-    // const lastUpdatedTime = '2022-05-29 10:01:00';
-    // console.log('utcTime', utcTime);
-    
-    
-    const lastUpdatedTimeString = utcTime + 'Z';
-    
-    // var date = new Date(); 
-    // var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-    // date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-    
+    const nextUtcMilliSeconds = Date.UTC(nextYear, nextMonth, nextDate, nextHour, nextMinute, nextSecond);
+    // const nextUtcObj = new Date(nextUtcMilliSeconds);
+    // console.log(nextUtcObj);
   
-    
-    // const currentTimeString = (new Date).toUTCString();
-    // const currentTimeString = (new Date).toISOString();
-    // const currentTimeString = (new Date()); // current zone time
-    // http://worldtimeapi.org/api/timezone/Etc/UTC
-
-
-    // const currentTimeString = '2022-05-29 10:59:00'; // Bug
-    // const currentTimeString = '2022-05-29 10:59:10';
-    // const currentTimeString = '2022-05-29 10:59:59';
-    // const currentTimeString = '2022-05-29 11:00:00'; // Bug
-    // const currentTimeString = '2022-05-29 11:00:50';
-    // const currentTimeString = '2022-05-29 11:01:00'; // Bug
-
-    // START
-    // const nextDeployment = new Date((new Date(lastUpdatedTimeString)).valueOf() + (60*60*1000));
-    // const currentTimeObj = new Date(currentTimeString);
-    // const milliSeconds = nextDeployment.valueOf() - currentTimeObj.valueOf();
-    const lastUpdatedMilliSeconds = (new Date(lastUpdatedTimeString)).getTime() + (60*1000);
-    const nextDeploymentMilliSeconds = lastUpdatedMilliSeconds + (60*60*1000);
-    const currentTimeMilliSeconds = (new Date()).getTime();
-    const milliSeconds = nextDeploymentMilliSeconds - currentTimeMilliSeconds;
-
-    const seconds = Math.floor(milliSeconds / 1000);
-    
-    let MM:any = Math.floor(seconds / 60);
-    let SS:any = seconds - MM * 60;
-    // END
-
-    // let nowDateAndTime = new Date(currentTimeString)
-    // nowDateAndTime = new Date(nowDateAndTime.valueOf() - (60*1000));
-    // // let MM = nowDateAndTime.getMinutes()
-    // // let SS = nowDateAndTime.getSeconds()
-    // let MM:any = 60 - nowDateAndTime.getMinutes()
-    // let SS:any = 60 - nowDateAndTime.getSeconds()
-
-    // if (SS !== 0) MM--;
-
+    const remainingMilliSeconds = nextUtcMilliSeconds - utcObj.valueOf();
+  
+  
+    let remainingSeconds = Math.floor(remainingMilliSeconds / 1000);
+  
+    let HH:any = Math.floor(Math.floor(remainingSeconds / 60) / 60);
+  
+    remainingSeconds = remainingSeconds - (HH * 60 * 60);
+  
+    let MM:any = Math.floor(remainingSeconds / 60);
+    let SS:any = remainingSeconds - (MM * 60);
+  
+    HH = HH < 10 ? `0${HH}` : HH;
     MM = MM < 10 ? `0${MM}` : MM;
     SS = SS < 10 ? `0${SS}` : SS;
+  
+    return `${HH}:${MM}:${SS}`;
+  }
+  
+  const now_date_and_time = new Date();
+  
+  // const data = nextpredictionUpdate(now_date_and_time);
+  // console.log(data);
 
+  //Next Data Update
+  setInterval(function(){
+    const nowDateandTime = new Date();
+    let MM:any = nowDateandTime.getUTCMinutes() < 1 ? 0 : 60 - nowDateandTime.getUTCMinutes();
+    let SS:any = 60 - nowDateandTime.getUTCSeconds();
+  
+    MM = MM < 10 ? `0${MM}` : MM;
+    SS = SS < 10 ? `0${SS}` : SS;
+  
     // var target = `${HH}:${MM}:${SS} `
     var target = `00:${MM}:${SS}`;
-
-    // console.log(currentTimeString, target);
-    // console.log(currentTimeString);
-    // console.log(currentTimeObj);
-
+    if(target === "00:00:01"){
+      HandleLastRowData()
+        getLastDayData()
+        getBarChartData()
+        getPieChartData()
+    }
     setUpdatedTime(target)
-    return target
-  }
   
-  if(last_date_and_time !== undefined){
-    setInterval(nextDataUpdate, 1000, last_date_and_time)
-    // setInterval(nextDataUpdate, 1000, '2022-05-30 04:00:00');
-  }
+  }, 1000)
 
-  
-
- 
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -182,7 +173,7 @@ const Stats = () => {
         }
         text="Rows of Parking Data"
       >
-        {total_data_rows || 0}
+        {total_data_rows ? total_data_rows : "0" }
       </StatsCard>
       <StatsCard
         icon={
@@ -203,7 +194,7 @@ const Stats = () => {
         }
         text="Next Data Update"
       >
-        {updatedtime}
+        {updatedtime }
       </StatsCard>
       <StatsCard
         icon={
@@ -224,7 +215,7 @@ const Stats = () => {
         }
         text="Next Prediction Update"
       >
-        {convertServerToTimeZone(last_date_and_time)}
+        {nextpredictionUpdate(now_date_and_time)}
       </StatsCard>
     </div>
   )
