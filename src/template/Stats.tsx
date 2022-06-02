@@ -83,7 +83,7 @@ const dispatch = useDispatch()
     const remainingMilliSeconds = nextUtcMilliSeconds - utcObj.valueOf();
   
   
-    let remainingSeconds = Math.floor(remainingMilliSeconds / 1000);
+    let remainingSeconds = Math.round(remainingMilliSeconds / 1000);
   
     let HH:any = Math.floor(Math.floor(remainingSeconds / 60) / 60);
   
@@ -107,7 +107,7 @@ const dispatch = useDispatch()
   setInterval(function(){
     const nowDateandTime = new Date();
     let MM:any = nowDateandTime.getUTCMinutes() < 1 ? 0 : 60 - nowDateandTime.getUTCMinutes();
-    let SS:any = 60 - nowDateandTime.getUTCSeconds();
+    let SS:any = nowDateandTime.getUTCSeconds() < 1 ? 0 : 60 - nowDateandTime.getUTCSeconds();
   
     MM = MM < 10 ? `0${MM}` : MM;
     SS = SS < 10 ? `0${SS}` : SS;

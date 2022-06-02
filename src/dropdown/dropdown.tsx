@@ -17,7 +17,7 @@ export default function Dropdown() {
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-primary-500 hover:bg-primary-600 px-4 py-2 text-lg font-medium text-white hover:bg-opacity-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             Filters
             <ChevronDownIcon
-              className="ml-2 -mr-1 h-6 w-6 text-primary-200 hover:text-primary-100"
+              className="-mr-2 h-6 w-6 mt-0.5 text-primary-200 hover:text-primary-100"
               aria-hidden="true"
             />
           </Menu.Button>
