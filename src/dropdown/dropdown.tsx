@@ -14,10 +14,10 @@ export default function Dropdown() {
     <div className="">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex w-full justify-center rounded-md bg-primary-500 hover:bg-primary-600 px-4 py-2 text-lg font-medium text-white hover:bg-opacity-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <Menu.Button className="inline-flex w-full justify-center rounded-md bg-primary-500 hover:bg-primary-600 px-4 py-2 text-lg font-semibold text-white hover:bg-opacity-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             Filters
             <ChevronDownIcon
-              className="-mr-2 h-6 w-6 mt-0.5 text-primary-200 hover:text-primary-100"
+              className="-mr-2 h-6 w-6 mt-0.5 text-primary-100 hover:text-primary-100 font-semibold"
               aria-hidden="true"
             />
           </Menu.Button>
@@ -40,7 +40,7 @@ export default function Dropdown() {
                       active
                         ? 'bg-primary-500 text-white'
                         : 'dark:text-gray-400 text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group flex w-full items-center rounded-md px-2 py-2 text-base font-semibold`}
                     onClick={() => getLastDayData()}
                   >
                     Past 24 Hours
@@ -54,7 +54,7 @@ export default function Dropdown() {
                       active
                         ? 'bg-primary-500 text-white'
                         : 'dark:text-gray-400 text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group flex w-full items-center rounded-md px-2 py-2 text-base font-semibold`}
                     onClick={() => {
                       getLastWeekData()
                     }}
@@ -71,7 +71,7 @@ export default function Dropdown() {
                       active
                         ? 'bg-primary-500 text-white'
                         : 'dark:text-gray-400 text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group flex w-full items-center rounded-md px-2 py-2 text-base font-semibold`}
                     onClick={() => {
                       getLastMonthData()
                     }}
