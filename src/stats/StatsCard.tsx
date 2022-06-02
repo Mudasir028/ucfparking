@@ -7,7 +7,7 @@ type IStatsCardProps = {
 }
 
 const StatsCard = (props: IStatsCardProps) => (
-  <div className="dark:bg-[#000000] stats-card flex items-center border dark:border-gray-800 border-gray-200 bg-white rounded-md p-4">
+  <div className="dark:bg-[#292b2e] stats-card flex items-center border dark:border-gray-800 border-gray-200 bg-white rounded-md p-4">
     <div className="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-400 flex-shrink-0">
       {props.icon}
     </div>

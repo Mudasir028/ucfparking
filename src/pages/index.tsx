@@ -38,6 +38,7 @@ const Index = () => {
         <Section>
           <Stats />
         </Section>
+
         <Section>
           <Charts />
         </Section>

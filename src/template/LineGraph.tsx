@@ -12,7 +12,7 @@ const LineGraph = () => {
         data={state.lineChartData}
         margin={{
           top: 0,
-          right: 28,
+          right: 30,
           left: 0,
           bottom: 0
         }}
@@ -23,7 +23,7 @@ const LineGraph = () => {
           axisLine={false}
           ticks={[0, 500, 1000, 1500, 2000]}
         />
-        <CartesianGrid stroke="#E5E7EB" strokeDasharray="15" vertical={false} />
+        <CartesianGrid className="dark:stroke-slate-600 stroke-slate-300" strokeDasharray="15" vertical={false} />
         <Tooltip />
         <Area
           type="monotone"

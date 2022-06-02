@@ -43,7 +43,7 @@ export default function Dropdown() {
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     onClick={() => getLastDayData()}
                   >
-                    Last Day
+                    Past 24 Hours
                   </button>
                 )}
               </Menu.Item>
@@ -59,7 +59,7 @@ export default function Dropdown() {
                       getLastWeekData()
                     }}
                   >
-                    Last Week
+                    Past Week Average
                   </button>
                 )}
               </Menu.Item>
@@ -76,7 +76,7 @@ export default function Dropdown() {
                       getLastMonthData()
                     }}
                   >
-                    Last Month
+                    Past Month Average
                   </button>
                 )}
               </Menu.Item>

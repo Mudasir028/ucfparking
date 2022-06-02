@@ -36,7 +36,7 @@ const BarGraph = () => {
           bottom: 0
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid className="dark:stroke-slate-600" strokeDasharray="1 1" />
         <XAxis dataKey="name" tickLine={false} axisLine={false} />
         <YAxis tickLine={false} axisLine={false} />
         <CartesianGrid stroke="#E5E7EB" strokeDasharray="15" vertical={false} />

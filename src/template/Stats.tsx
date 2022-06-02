@@ -27,7 +27,7 @@ const dispatch = useDispatch()
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const state = useSelector((state: any) => state)
-  const [updatedtime, setUpdatedTime] = useState('00:00:01');  
+  const [updatedtime, setUpdatedTime] = useState('00:02:01');  
 
   const { parking, chart } = state
   const { barChartData } = chart
@@ -95,7 +95,6 @@ const dispatch = useDispatch()
     HH = HH < 10 ? `0${HH}` : HH;
     MM = MM < 10 ? `0${MM}` : MM;
     SS = SS < 10 ? `0${SS}` : SS;
-  
     return `${HH}:${MM}:${SS}`;
   }
   

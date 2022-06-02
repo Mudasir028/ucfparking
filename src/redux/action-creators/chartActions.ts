@@ -56,7 +56,7 @@ const getUniquArray = (data: any) => {
   let uniqArr: any = []
   // eslint-disable-next-line no-plusplus
   for (let index = 0; index < data.length; index++) {
-    const date = moment(data[index].date_and_time).format('DD MM')
+    const date = moment(data[index].date_and_time).format('MM DD')
     arr.push(date)
     uniqArr = arr.filter(function (x, i, a) {
       return a.indexOf(x) === i
@@ -73,7 +73,7 @@ const sumArray = (data: any) => {
   data.forEach((item: any) => {
     const { date, garages } = item
     // let arr = []
-    weeklyData = { time: `${moment(date).format('DD/MM')}` }
+    weeklyData = { time: `${moment(date).format('MM/DD')}` }
     for (const garage in garages) {
       for (const grageName in garages[garage]) {
         weeklyData[grageName] = garages[garage][grageName].spaces_left
@@ -92,7 +92,7 @@ export const filterByWeek = (data: any) => {
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < days.length; i++) {
     const res = data.filter(
-      (item: any) => moment(item.date_and_time).format('DD MM') === days[i]
+      (item: any) => moment(item.date_and_time).format('MM DD') === days[i]
     )
 
     const garages = res.map((item: any) => item.garages)
