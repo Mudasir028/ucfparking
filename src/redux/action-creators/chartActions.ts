@@ -95,6 +95,7 @@ const sumArray = (data: any) => {
         // maxSpaceLeft =  maxSpaceLeft < garages[garage][grageName].spaces_left ? garages[garage][grageName].spaces_left : maxSpaceLeft;  
       }
     }  
+    chartData.push(weeklyData)
   })
   
   for(let i =0; i < chartData.length; i++){
