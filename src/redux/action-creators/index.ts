@@ -40,7 +40,8 @@ export const getLastDayData = () => async (dispatch: Dispatch) => {
   dispatch({
     type: ActionType.GET_LAST_DAY_DATA,
     payload: graphData.data,
-    data: chartData
+    data: chartData.chartData,
+    ticks: chartData.lineGraphTicks
   });
   } catch (error) {
     console.log(error)
@@ -48,27 +49,36 @@ export const getLastDayData = () => async (dispatch: Dispatch) => {
 };
 
 export const getLastWeekData = () => async (dispatch: Dispatch) => {
-  const res = await fetch("https://api.ucfparking.com/week");
+  try {
+    const res = await fetch("https://api.ucfparking.com/week");
   const graphData = await res.json();
   const chartData = filterByWeek(graphData.data);
   dispatch({
     type: ActionType.GET_LAST_WEEK_DATA,
     payload: graphData.data,
-    data: chartData
+    data: chartData.chartData,
+    ticks: chartData.lineGraphTicks
   });
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export const getLastMonthData = () => async (dispatch: Dispatch) => {
+  try {
   const res = await fetch("https://api.ucfparking.com/lastmonth");
-  const graphData = await res.json();
-
+  const graphData = await res.json();  
   const chartData = filterByWeek(graphData.data);
 
   dispatch({
     type: ActionType.GET_LAST_MONTH_DATA,
     payload: graphData.data,
-    data: chartData
+    data: chartData.chartData,
+    ticks: chartData.lineGraphTicks
   });
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 // export const getLastYearData = () => async (dispatch: Dispatch) => {

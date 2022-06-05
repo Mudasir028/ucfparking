@@ -6,6 +6,8 @@ import 'moment-timezone'
 export const handelChartData = (data: any, type: string) => {
   let chartData: any[] = []
   let timebaseLineData: any = {}
+  let maxSpaceLeft: number = 0
+  let lineGraphTicks: number[] = []
 
   data.forEach((chart: any) => {
     const { date_and_time, garages } = chart
@@ -22,14 +24,25 @@ export const handelChartData = (data: any, type: string) => {
     for (let garageName in garages) {
       // const index = data.findIndex((d) => d.name === garageName);
       timebaseLineData[garageName] = garages[garageName].spaces_left
-    }
-
+      // allSpacesLeft.push(garages[garageName].spaces_left)
+      if(garages[garageName].space_left < maxSpaceLeft) {
+      }
+      maxSpaceLeft =  maxSpaceLeft < garages[garageName].spaces_left ? garages[garageName].spaces_left : maxSpaceLeft;      
+    }       
     chartData.push(timebaseLineData)
   })
-  chartData.reverse()
 
-  return chartData
+  while (maxSpaceLeft % 500 != 0) {
+    maxSpaceLeft++;
+  }
+  for (let i = 0; i <= maxSpaceLeft; i += 500) {
+    lineGraphTicks.push(i)
+  }
+  chartData.reverse()
+  
+  return {chartData, lineGraphTicks}
 }
+
 export const handleBarChart = (data: any, type: string) => {
   const barChartData = []
   let garages = {}
@@ -69,19 +82,52 @@ const getUniquArray = (data: any) => {
 const sumArray = (data: any) => {
   // let space;
   let weeklyData: any = {}
-  const grgs: any[] = []
-  data.forEach((item: any) => {
+  const chartData: any[] = []
+  let maxSpaceLeft: number = 0
+  let lineGraphTicks: number[] = []
+  data.forEach((item: any) => { 
     const { date, garages } = item
     // let arr = []
-    weeklyData = { time: `${moment(date).format('MM/DD')}` }
+    weeklyData = { time: `${moment(date).format('MM/DD')}` }  
     for (const garage in garages) {
       for (const grageName in garages[garage]) {
         weeklyData[grageName] = garages[garage][grageName].spaces_left
+        // maxSpaceLeft =  maxSpaceLeft < garages[garage][grageName].spaces_left ? garages[garage][grageName].spaces_left : maxSpaceLeft;  
       }
-    }
-    grgs.push(weeklyData)
+    }  
   })
-  return grgs
+  
+  for(let i =0; i < chartData.length; i++){
+    if(chartData[i].A > maxSpaceLeft){
+      maxSpaceLeft = chartData[i].A
+    }
+    if(chartData[i].B > maxSpaceLeft){
+      maxSpaceLeft = chartData[i].B
+    }
+    if(chartData[i].C > maxSpaceLeft){
+      maxSpaceLeft = chartData[i].C
+    }
+    if(chartData[i].D > maxSpaceLeft){
+      maxSpaceLeft = chartData[i].D
+    }
+    if(chartData[i].H > maxSpaceLeft){
+      maxSpaceLeft = chartData[i].H
+    }
+    if(chartData[i].I > maxSpaceLeft){
+      maxSpaceLeft = chartData[i].I
+    }
+    if(chartData[i].Libra > maxSpaceLeft){
+      maxSpaceLeft = chartData[i].Libra
+    }
+  }
+
+  while (maxSpaceLeft % 500 != 0) {
+    maxSpaceLeft++;
+  }
+  for (let i = 0; i <= maxSpaceLeft; i += 500) {
+    lineGraphTicks.push(i)
+  }
+  return { chartData, lineGraphTicks }
 }
 export const filterByWeek = (data: any) => {
   const chartData = []
@@ -96,11 +142,11 @@ export const filterByWeek = (data: any) => {
     )
 
     const garages = res.map((item: any) => item.garages)
-
+    
     obj = { date: res[0].date_and_time, garages: { ...garages } }
     chartData.push(obj)
   }
   const space_left = sumArray(chartData)
-  space_left.reverse()
+  space_left.chartData.reverse()
   return space_left
 }

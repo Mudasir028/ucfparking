@@ -4,6 +4,7 @@ import { ActionType } from "../constants";
 const initialState = {
   lineChart: [],
   lineChartData: [],
+  lineChartTicks: [],
 
   barChart: [],
   barChartData: [],
@@ -25,19 +26,23 @@ const chartReducer = (state: any = initialState, action: Action): any => {
       return {
         ...state,
         lineChart: action.payload,
-        lineChartData: action.data
+        lineChartData: action.data,
+        lineChartTicks: action.ticks
+
       };
     case ActionType.GET_LAST_WEEK_DATA:
       return {
         ...state,
         lineChart: action.payload,
-        lineChartData: action.data
+        lineChartData: action.data,
+        lineChartTicks: action.ticks
       };
     case ActionType.GET_LAST_MONTH_DATA:
       return {
         ...state,
         lineChart: action.payload,
-        lineChartData: action.data
+        lineChartData: action.data,
+        lineChartTicks: action.ticks
       };
     // case ActionType.GET_LAST_YEAR_DATA:
     //   return {
